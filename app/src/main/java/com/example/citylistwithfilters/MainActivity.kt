@@ -1,7 +1,9 @@
 package com.example.citylistwithfilters
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.citylistwithfilters.databinding.ActivityMainBinding
 import com.example.citylistwithfilters.model.Cities
@@ -33,12 +35,21 @@ class MainActivity : AppCompatActivity() {
             cityNames.add(city.name)
         }
 
-        adapter = CitiesAdapter()
-        adapter.cities = cityNames
+        adapter = CitiesAdapter(cityNames)
 
         val layoutManager = LinearLayoutManager(this)
         binding.rView.layoutManager = layoutManager
         binding.rView.adapter = adapter
 
+        binding.editTextTextPersonName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                adapter.filter.filter(binding.editTextTextPersonName.text);
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+        })
     }
 }
